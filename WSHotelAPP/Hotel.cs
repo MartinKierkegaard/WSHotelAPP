@@ -35,5 +35,10 @@ namespace WSHotelAPP
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Room> Room { get; set; }
+
+        public override string ToString()
+        {
+            return $"Hotel_No: {Hotel_No}, Name: {Name}, Address: {Address}, HotelUrl: {HotelUrl}, Rating: {Rating}";
+        }
     }
 }
