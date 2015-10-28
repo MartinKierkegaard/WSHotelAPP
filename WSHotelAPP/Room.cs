@@ -34,5 +34,11 @@ namespace WSHotelAPP
         public virtual ICollection<Booking> Booking { get; set; }
 
         public virtual Hotel Hotel { get; set; }
+
+
+        public override string ToString()
+        {
+            return String.Format("room no: {0} , Hotel no: {1}, price: {2}",Room_No,Hotel_No,Price);
+        }
     }
 }

@@ -170,10 +170,11 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Booking.cs" />
     <Compile Include="Controllers\BookingsController.cs" />
-    <Compile Include="Controllers\GuestsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HotelBookingsController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
     <Compile Include="Controllers\MemberShipTypesController.cs" />
+    <Compile Include="Controllers\Rooms1Controller.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
