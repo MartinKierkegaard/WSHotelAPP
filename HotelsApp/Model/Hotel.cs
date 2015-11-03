@@ -48,7 +48,7 @@ namespace HotelsApp.Model
         /// <returns></returns>
         public StringContent GetContentString()
         {
-            return new StringContent(this.SerializerJson(), Encoding.UTF8, "ApplicationJson");
+            return new StringContent(this.SerializerJson(), Encoding.UTF8, "Application/json");
         }
 
 

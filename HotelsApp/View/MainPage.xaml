@@ -59,7 +59,7 @@
         <TextBox x:Name="textBox_Copy1" HorizontalAlignment="Left" Margin="131,181,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding MyNewHotel.Address, Mode=TwoWay}" VerticalAlignment="Top" TextChanged="textBox_TextChanged" Width="160"/>
         <TextBox x:Name="textBox_Copy2" HorizontalAlignment="Left" Margin="131,219,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding MyNewHotel.Rating, Mode=TwoWay}" VerticalAlignment="Top" TextChanged="textBox_TextChanged" Width="151"/>
         <ListView x:Name="listView" HorizontalAlignment="Left" Height="250" Margin="113,43,0,0" Grid.Row="1" VerticalAlignment="Top" Width="345" ItemsSource="{Binding HotelsList, Mode=TwoWay}" Background="Black" SelectedItem="{Binding SelectedHotel, Mode=TwoWay}" FontFamily="AR BERKLEY" FontSize="16" Foreground="#FF80A281" BorderBrush="#FFEAEA12" Grid.Column="1" SelectedIndex="-1"/>
-        <Button x:Name="AddHotelButton" Content="Create Hotel" HorizontalAlignment="Left" Height="45" Margin="73,304,0,0" Grid.Row="1" VerticalAlignment="Top" Width="124"/>
+        <Button x:Name="AddHotelButton" Content="Create Hotel" HorizontalAlignment="Left" Height="45" Margin="73,304,0,0" Grid.Row="1" VerticalAlignment="Top" Width="124" Command="{Binding CreateHotelCommand}"/>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="544,337,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding SelectedHotel, Mode=TwoWay}" VerticalAlignment="Top" Height="51" Grid.ColumnSpan="2" Width="770" FontFamily="Goudy Stout" FontSize="13.333"/>
     </Grid>
 </Page>

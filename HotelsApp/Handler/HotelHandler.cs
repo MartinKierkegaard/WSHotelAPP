@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HotelsApp.Facade;
+using HotelsApp.Model;
 using HotelsApp.ViewModel;
+using JulMar.Core.Extensions;
 
 namespace HotelsApp.Handler
 {
@@ -23,8 +25,11 @@ namespace HotelsApp.Handler
         {
 
             new HotelFacade().CreateHotel(hotelViewModel.MyNewHotel);
-            var hotels = HotelFacade.GetHotels();
 
+            var hotels = HotelFacade.GetHotels();
+            hotelViewModel.HotelsList.Clear();
+            hotelViewModel.HotelsList.AddRange(hotels);
+            hotelViewModel.MyNewHotel = new Hotel();
         }
 
     }

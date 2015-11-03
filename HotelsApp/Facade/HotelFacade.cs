@@ -47,15 +47,13 @@ namespace HotelsApp.Facade
 
         public void CreateHotel(Hotel hotel)
         {
-           // hotel..GetContentString()
-
             //Create a Http post
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(serverUrl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                string posturl = "api/rooms";
+                string posturl = "api/hotels";
                 var response = client.PostAsync(posturl, hotel.GetContentString()).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -65,9 +63,6 @@ namespace HotelsApp.Facade
                 {
                     new MessageDialog("Not OK !" +response.StatusCode.ToString() ).ShowAsync();
                 }
-
-                //Console.WriteLine("Post async " + posturl);
-                //Console.WriteLine("Status code " + response.StatusCode);
             }
 
         }
