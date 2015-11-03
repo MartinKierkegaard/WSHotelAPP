@@ -102,5 +102,10 @@ namespace HotelsApp.View
         }
 
         #endregion
+
+        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
