@@ -24,7 +24,31 @@ namespace ConsoleHotelApp1
 
             var hotellist = new List<Hotel>();
             var roomlist = new List<Room>();
-            Console.ReadLine( );
+         //   Console.ReadLine( );
+
+            Hotel aNewHotel = new Hotel()
+            {
+                Hotel_No = 345,Name = "Big Hotel",Address = "MyWay 1",Rating = "*"
+            };
+
+            string jsonaNewHotel = aNewHotel.SerializerJson();
+            Console.WriteLine(jsonaNewHotel);
+
+
+            Hotel deserializeHotel = Hotel.DeserializeJson(jsonaNewHotel);
+
+            Console.WriteLine(deserializeHotel.ToString());
+
+
+
+            Console.ReadLine();
+            ////GetAHotel
+            //Hotel selectedHotel = GetAHotel(serverUrl,3);
+            //Console.WriteLine("After WebserviceCall");
+            //Console.WriteLine(selectedHotel);
+
+            
+
             //Exercise1
             //int selectHotel = 3;
             //Excercise1(serverUrl, selectHotel);           
@@ -43,8 +67,8 @@ namespace ConsoleHotelApp1
             //Exercise5(serverUrl);
 
             //Exercise6
-            int deleteHotelNo = 1002;
-            DeleteHotel(serverUrl, deleteHotelNo);
+            //int deleteHotelNo = 1002;
+            //DeleteHotel(serverUrl, deleteHotelNo);
 
             //Exercise7
             //int hotelNo = 4;
@@ -54,7 +78,7 @@ namespace ConsoleHotelApp1
             //Exercise 8
             //8) Update all hotels in roskilde increase the price of a single 
             //room with 20 %, show the prices before and after the update
-            Exercise8(serverUrl, hotellist, roomlist);
+          //  Exercise8(serverUrl, hotellist, roomlist);
 
 
 
@@ -259,6 +283,13 @@ namespace ConsoleHotelApp1
         /// <param name="serverUrl"></param>
         /// <param name="selectHotelNo"></param>
         /// <returns></returns>
+
+        /// <summary>
+        /// method to get a specific hotel
+        /// </summary>
+        /// <param name="serverUrl"></param>
+        /// <param name="selectHotelNo"></param>
+        /// <returns></returns>
         private static Hotel GetHotel(string serverUrl, int selectHotelNo)
         {
             var hotel = new Hotel();
@@ -300,6 +331,34 @@ namespace ConsoleHotelApp1
                 }
             }
         }
+
+
+        private static Hotel GetAHotel(string serverUrl, int selectHotel)
+        {
+            var selectedHotel = new Hotel();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(serverUrl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                string urlString = "api/hotels/" + selectHotel;
+                var response = client.GetAsync(urlString).Result;
+                Console.WriteLine("GetAsync : " + urlString);
+                Console.WriteLine("Status code : " + response.StatusCode);
+                if (response.IsSuccessStatusCode)
+                {
+                    var hotelJson = response.Content.ReadAsStringAsync().Result;
+                    selectedHotel = JsonConvert.DeserializeObject<Hotel>(hotelJson);
+                    Console.WriteLine(hotelJson);
+                    Console.WriteLine();
+                    //Console.WriteLine("hotel : " + hotel.ToString());
+                }
+            }
+            return selectedHotel;
+        }
+
 
         private static void Exercise5(string serverUrl)
         {

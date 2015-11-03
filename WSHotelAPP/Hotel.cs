@@ -1,3 +1,7 @@
+using System.Net.Http;
+using System.Text;
+using Newtonsoft.Json;
+
 namespace WSHotelAPP
 {
     using System;
@@ -40,5 +44,30 @@ namespace WSHotelAPP
         {
             return $"Hotel_No: {Hotel_No}, Name: {Name}, Address: {Address}, HotelUrl: {HotelUrl}, Rating: {Rating}";
         }
+
+        /// <summary>
+        /// Serialize this object to json format
+        /// </summary>
+        /// <returns></returns>
+        public string SerializerJson()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public static Hotel DeserializeJson(string json)
+        {
+            Hotel hotel = JsonConvert.DeserializeObject<Hotel>(json);
+            return hotel;
+        }
+
+        /// <summary>
+        /// Get object as stringContent in json format and in encoding =UTF8 
+        /// </summary>
+        /// <returns></returns>
+        public StringContent GetContentString()
+        {
+            return new StringContent(this.SerializerJson(),Encoding.UTF8,"Application/json");
+        }
+
     }
 }
