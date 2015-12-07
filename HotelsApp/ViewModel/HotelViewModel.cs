@@ -21,6 +21,7 @@ namespace HotelsApp.ViewModel
             SelectedHotel = new Hotel();
             hotelHandler = new HotelHandler(this);
             createHotelCommand = new RelayCommand(hotelHandler.CreateHotel);
+            DeleteHotelCommand = new RelayCommand(hotelHandler.DeleteHotel);
             HotelsList = new HotelCatalog().Hotels;
 
         }
@@ -49,8 +50,7 @@ namespace HotelsApp.ViewModel
        }
 
        public ObservableCollection<Hotel> HotelsList { get; set; }
-
-
+       public RelayCommand DeleteHotelCommand { get; private set; }
 
        public event PropertyChangedEventHandler PropertyChanged;
 

@@ -32,5 +32,11 @@ namespace HotelsApp.Handler
             hotelViewModel.MyNewHotel = new Hotel();
         }
 
+        public void DeleteHotel()
+        {
+            new HotelFacade().DeleteHotel(hotelViewModel.SelectedHotel);
+            hotelViewModel.HotelsList.Remove(hotelViewModel.SelectedHotel);
+        }
+
     }
 }

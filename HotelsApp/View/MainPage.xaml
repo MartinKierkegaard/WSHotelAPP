@@ -61,5 +61,6 @@
         <ListView x:Name="listView" HorizontalAlignment="Left" Height="250" Margin="113,43,0,0" Grid.Row="1" VerticalAlignment="Top" Width="345" ItemsSource="{Binding HotelsList, Mode=TwoWay}" Background="Black" SelectedItem="{Binding SelectedHotel, Mode=TwoWay}" FontFamily="AR BERKLEY" FontSize="16" Foreground="#FF80A281" BorderBrush="#FFEAEA12" Grid.Column="1" SelectedIndex="-1"/>
         <Button x:Name="AddHotelButton" Content="Create Hotel" HorizontalAlignment="Left" Height="45" Margin="73,304,0,0" Grid.Row="1" VerticalAlignment="Top" Width="124" Command="{Binding CreateHotelCommand}"/>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="544,337,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding SelectedHotel, Mode=TwoWay}" VerticalAlignment="Top" Height="51" Grid.ColumnSpan="2" Width="770" FontFamily="Goudy Stout" FontSize="13.333"/>
+        <Button x:Name="button" Content="Delete hotel" HorizontalAlignment="Left" Height="39" Margin="-1,381,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Grid.Column="1" Command="{Binding DeleteHotelCommand}"/>
     </Grid>
 </Page>

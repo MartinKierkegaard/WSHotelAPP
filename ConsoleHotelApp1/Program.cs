@@ -24,7 +24,16 @@ namespace ConsoleHotelApp1
 
             var hotellist = new List<Hotel>();
             var roomlist = new List<Room>();
-         //   Console.ReadLine( );
+            //   Console.ReadLine( );
+
+           var liste = GetAllHotelsAsync(serverUrl).Result;
+
+            hotellist = liste;
+
+            foreach (var h in hotellist)
+            {
+                Console.WriteLine(h.ToString());
+            }
 
             Hotel aNewHotel = new Hotel()
             {
@@ -643,46 +652,65 @@ namespace ConsoleHotelApp1
             }
         }
 
+        private static async Task<List<Hotel>> GetAllHotelsAsync(string serverUrl)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(serverUrl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync("api/hotels").Result;
+                //var hotels = await response.Content.ReadAsAsync<IEnumerable<Hotel>>().Result;
+
+                //return hotels;
+                return await response.Content.ReadAsAsync<List<Hotel>>();
+
+            }
+        }
+
+
+
 
         //const string serverUrl = "http://localhost:5000";
-        //var handler = new HttpClientHandler();
-        //handler.UseDefaultCredentials = true;
+            //var handler = new HttpClientHandler();
+            //handler.UseDefaultCredentials = true;
 
-        //using (var client = new HttpClient(handler))
-        //{
-        //    client.BaseAddress = new Uri(serverUrl);
-        //    client.DefaultRequestHeaders.Clear();
-        //    client.DefaultRequestHeaders.Accept.Add(
-        //        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //using (var client = new HttpClient(handler))
+            //{
+            //    client.BaseAddress = new Uri(serverUrl);
+            //    client.DefaultRequestHeaders.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(
+            //        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-        //    try
-        //    {
-        //        var response = client.GetAsync("api/Hotels").Result;
+            //    try
+            //    {
+            //        var response = client.GetAsync("api/Hotels").Result;
 
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            var hotels = response.Content.ReadAsAsync<IEnumerable<Hotel>>().Result;
-
-
-        //            foreach (var hotel in hotels)
-        //            {
-        //                Console.WriteLine(hotel.ToString());
-        //            }
-
-        //            Console.ReadLine();
-        //        }
+            //        if (response.IsSuccessStatusCode)
+            //        {
+            //            var hotels = response.Content.ReadAsAsync<IEnumerable<Hotel>>().Result;
 
 
-        //    }
-        //    catch (Exception)
-        //    {
+            //            foreach (var hotel in hotels)
+            //            {
+            //                Console.WriteLine(hotel.ToString());
+            //            }
 
-        //        throw;
-        //    }
+            //            Console.ReadLine();
+            //        }
 
 
-        //}
-        //}
+            //    }
+            //    catch (Exception)
+            //    {
 
-    }
+            //        throw;
+            //    }
+
+
+            //}
+            //}
+
+        }
 }
