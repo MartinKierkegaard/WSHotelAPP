@@ -26,27 +26,31 @@ namespace ConsoleHotelApp1
             var roomlist = new List<Room>();
             //   Console.ReadLine( );
 
-           var liste = GetAllHotelsAsync(serverUrl).Result;
+            //for (int i = 5; i >= 0; i--)
+            //{
+            //    Console.WriteLine("kalder showAllHotelsAsync med " +i);
+            //     showAllHotelsAsync(serverUrl,i).Wait();
 
-            hotellist = liste;
+            //}
 
-            foreach (var h in hotellist)
-            {
-                Console.WriteLine(h.ToString());
-            }
+            showAllHotelsAsync(serverUrl, 1).Wait();
 
-            Hotel aNewHotel = new Hotel()
-            {
-                Hotel_No = 345,Name = "Big Hotel",Address = "MyWay 1",Rating = "*"
-            };
+            //showAllRoomsAsync(serverUrl);
 
-            string jsonaNewHotel = aNewHotel.SerializerJson();
-            Console.WriteLine(jsonaNewHotel);
+            Console.WriteLine("*********AFTER ASYNC  **********");
+
+            //Hotel aNewHotel = new Hotel()
+            //{
+            //    Hotel_No = 345,Name = "Big Hotel",Address = "MyWay 1",Rating = "*"
+            //};
+
+            //string jsonaNewHotel = aNewHotel.SerializerJson();
+            //Console.WriteLine(jsonaNewHotel);
 
 
-            Hotel deserializeHotel = Hotel.DeserializeJson(jsonaNewHotel);
+            //Hotel deserializeHotel = Hotel.DeserializeJson(jsonaNewHotel);
 
-            Console.WriteLine(deserializeHotel.ToString());
+            //Console.WriteLine(deserializeHotel.ToString());
 
 
 
@@ -216,6 +220,40 @@ namespace ConsoleHotelApp1
 
 
             //Console.ReadLine();
+        }
+
+        //private static void showAllRoomsAsync(string serverUrl)
+        //{
+        //    var roomliste = GetAllRoomsAsync(serverUrl).Result;
+
+        //    foreach (var room   in roomliste)
+        //    {
+        //        Console.WriteLine(room.ToString());
+        //    }
+        //}
+
+        private static async Task showAllHotelsAsync(string serverUrl,int t)
+        {
+
+            Console.WriteLine("Kald for main med nr :" + t);
+
+            var liste1 = await GetAllHotelsAsync(serverUrl);
+
+            for (int i = 0; i < 5; i++)
+            {
+                Console.WriteLine("***** er i showAllHotelsAsync nr.: " + i);
+                var liste = await GetAllHotelsAsync(serverUrl);
+                ;
+                var rliste = await GetAllRoomsAsync(serverUrl);
+                //hotellist = liste;
+
+                //foreach (var h in hotellist)
+                //{
+                //    Console.WriteLine(h.Name);
+                //}
+            }
+            Console.WriteLine("finito med t:" + t);
+
         }
 
         private static void exercise7(int hotelNo, int roomNo, string serverUrl)
@@ -656,61 +694,93 @@ namespace ConsoleHotelApp1
         {
             using (var client = new HttpClient())
             {
+                var resultList = new List<Hotel>();
+
                 client.BaseAddress = new Uri(serverUrl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = client.GetAsync("api/hotels").Result;
-                //var hotels = await response.Content.ReadAsAsync<IEnumerable<Hotel>>().Result;
+                var httpResponseMessage = await  client.GetAsync("api/hotels");
 
-                //return hotels;
-                return await response.Content.ReadAsAsync<List<Hotel>>();
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    var content = await httpResponseMessage.Content.ReadAsStringAsync();
+                    resultList = JsonConvert.DeserializeObject<List<Hotel>>(content);
+                }
+
+                    return resultList;
+                }
+            }
+        
+
+        private static async Task<List<Room>> GetAllRoomsAsync(string serverUrl)
+        {
+            var rooms = new List<Room>(); 
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(serverUrl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync("api/rooms");
+                //var hotels = await response.Content.ReadAsAsync<IEnumerable<Hotel>>().Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    rooms = await response.Content.ReadAsAsync<List<Room>>();
+
+                    foreach (var room in rooms)
+                    {
+                        Console.WriteLine(room.Room_No);
+                    }
+
+                }
+
+                Console.WriteLine("after await ****###");
+                return rooms;
 
             }
         }
 
 
-
-
         //const string serverUrl = "http://localhost:5000";
-            //var handler = new HttpClientHandler();
-            //handler.UseDefaultCredentials = true;
+        //var handler = new HttpClientHandler();
+        //handler.UseDefaultCredentials = true;
 
-            //using (var client = new HttpClient(handler))
-            //{
-            //    client.BaseAddress = new Uri(serverUrl);
-            //    client.DefaultRequestHeaders.Clear();
-            //    client.DefaultRequestHeaders.Accept.Add(
-            //        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        //using (var client = new HttpClient(handler))
+        //{
+        //    client.BaseAddress = new Uri(serverUrl);
+        //    client.DefaultRequestHeaders.Clear();
+        //    client.DefaultRequestHeaders.Accept.Add(
+        //        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            //    try
-            //    {
-            //        var response = client.GetAsync("api/Hotels").Result;
+        //    try
+        //    {
+        //        var response = client.GetAsync("api/Hotels").Result;
 
-            //        if (response.IsSuccessStatusCode)
-            //        {
-            //            var hotels = response.Content.ReadAsAsync<IEnumerable<Hotel>>().Result;
-
-
-            //            foreach (var hotel in hotels)
-            //            {
-            //                Console.WriteLine(hotel.ToString());
-            //            }
-
-            //            Console.ReadLine();
-            //        }
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var hotels = response.Content.ReadAsAsync<IEnumerable<Hotel>>().Result;
 
 
-            //    }
-            //    catch (Exception)
-            //    {
+        //            foreach (var hotel in hotels)
+        //            {
+        //                Console.WriteLine(hotel.ToString());
+        //            }
 
-            //        throw;
-            //    }
+        //            Console.ReadLine();
+        //        }
 
 
-            //}
-            //}
+        //    }
+        //    catch (Exception)
+        //    {
 
-        }
+        //        throw;
+        //    }
+
+
+        //}
+        //}
+
+    }
 }

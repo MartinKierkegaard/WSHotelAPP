@@ -19,7 +19,9 @@ namespace HotelsApp.Model
 
         public HotelCatalog()
         {
-            Hotels = new ObservableCollection<Hotel>(HotelFacade.GetHotels());
+            //var h = HotelFacade.GetHotelsAsync().Result;
+
+            Hotels = new ObservableCollection<Hotel>();
         }
     }
 }

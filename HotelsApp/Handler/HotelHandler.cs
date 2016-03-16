@@ -12,7 +12,7 @@ namespace HotelsApp.Handler
 {
     public class HotelHandler
     {
-        private HotelViewModel hotelViewModel { get; set; }
+        private HotelViewModel hotelViewModel { get; }
         public HotelHandler(HotelViewModel hotelViewModel)
         {
             this.hotelViewModel = hotelViewModel;
@@ -21,20 +21,35 @@ namespace HotelsApp.Handler
         /// <summary>
         /// method that will create a new hotel by calling the facade layer
         /// </summary>
-        public void CreateHotel()
+        public async void CreateHotel()
         {
-
-            new HotelFacade().CreateHotel(hotelViewModel.MyNewHotel);
-
-            var hotels = HotelFacade.GetHotels();
-            hotelViewModel.HotelsList.Clear();
-            hotelViewModel.HotelsList.AddRange(hotels);
+            await HotelFacade.CreateHotel(hotelViewModel.MyNewHotel);
+            GetHotelsAsync();
+            //List<Hotel> hotels = await HotelFacade.GetHotelsAsync();
+            //hotelViewModel.HotelsList.Clear();
+            //hotelViewModel.HotelsList.AddRange(hotels);
             hotelViewModel.MyNewHotel = new Hotel();
         }
 
-        public void DeleteHotel()
+        /// <summary>
+        /// Get the Hotels from the Facade layer
+        /// </summary>
+        public async void GetHotelsAsync()
         {
-            new HotelFacade().DeleteHotel(hotelViewModel.SelectedHotel);
+
+            //for (int i = 0; i < 2000; i++)
+            //{
+                List<Hotel> hotels = await HotelFacade.GetHotelsAsync();
+                hotelViewModel.HotelsList.Clear();
+                hotelViewModel.HotelsList.AddRange(hotels);
+
+            //}
+        }
+
+
+        public async void DeleteHotel()
+        {
+            await  HotelFacade.DeleteHotel(hotelViewModel.SelectedHotel);
             hotelViewModel.HotelsList.Remove(hotelViewModel.SelectedHotel);
         }
 

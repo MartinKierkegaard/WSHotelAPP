@@ -22,12 +22,22 @@ namespace HotelsApp.ViewModel
             hotelHandler = new HotelHandler(this);
             createHotelCommand = new RelayCommand(hotelHandler.CreateHotel);
             DeleteHotelCommand = new RelayCommand(hotelHandler.DeleteHotel);
+            GetHotelsCommand = new RelayCommand(hotelHandler.GetHotelsAsync);
             HotelsList = new HotelCatalog().Hotels;
 
         }
 
 
-       private ICommand createHotelCommand;
+        private ICommand getHotelsCommand;
+
+        public ICommand GetHotelsCommand
+        {
+            get { return getHotelsCommand; }
+            set { getHotelsCommand = value; }
+        }
+
+
+        private ICommand createHotelCommand;
        private Hotel _selectedHotel;
 
        public ICommand CreateHotelCommand

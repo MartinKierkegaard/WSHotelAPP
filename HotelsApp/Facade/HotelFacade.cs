@@ -12,12 +12,12 @@ using Newtonsoft.Json;
 
 namespace HotelsApp.Facade
 {
-    public class HotelFacade
+    public static class HotelFacade
     {
 
         const string serverUrl = "http://localhost.fiddler:5000";
 
-        public static async  Task<List<Hotel>> GetHotels()
+        public static async Task<List<Hotel>> GetHotelsAsync()
         {
            // const string ServerUrl = "http://localhost:5001";
 
@@ -28,25 +28,25 @@ namespace HotelsApp.Facade
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 try
                 {
-                    var response =  client.GetAsync("api/Hotels").Result;
+                    var response =  await client.GetAsync("api/Hotels");
 
                     if (response.IsSuccessStatusCode)
                     {
                         //var hotelList = response.Content.ReadAsAsync<List<Hotel>>().Result;
-                        var hotelList =  JsonConvert.DeserializeObject<List<Hotel>>( response.Content.ReadAsStringAsync().Result);
-                        return hotelList.ToList();
+                        var hotelList =  JsonConvert.DeserializeObject<List<Hotel>>( await response.Content.ReadAsStringAsync());
+                        return hotelList;
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog(ex.Message).ShowAsync();
+                    await new MessageDialog(ex.Message).ShowAsync();
                 }
                 return null;
             }
         }
 
-        public void CreateHotel(Hotel hotel)
+        public static async Task CreateHotel(Hotel hotel)
         {
             //Create a Http post
             using (var client = new HttpClient())
@@ -61,22 +61,22 @@ namespace HotelsApp.Facade
                 StringContent content = new StringContent(json,Encoding.UTF8,"application/json");
 
                 // var response = client.PostAsync(posturl, hotel.GetContentString()).Result;
-                var response = client.PostAsync(posturl,content).Result;
+                var response = await client.PostAsync(posturl,content);
 
 
                 if (response.IsSuccessStatusCode)
                 {
-                    new MessageDialog("OK Hotel saved").ShowAsync();
+                   await new MessageDialog("OK Hotel saved").ShowAsync();
                 }
                 else
                 {
-                    new MessageDialog("Not OK !" +response.StatusCode.ToString() ).ShowAsync();
+                   await new MessageDialog("Not OK !" + response.StatusCode.ToString()).ShowAsync();
                 }
             }
 
         }
 
-        public void DeleteHotel(Hotel hotel)
+        public static async Task DeleteHotel(Hotel hotel)
         {
             using (var client = new HttpClient())
             {
@@ -87,20 +87,20 @@ namespace HotelsApp.Facade
                 try
                 {
                     string deleteUrl = "api/hotels/" + hotel.Hotel_No;
-                    var response = client.DeleteAsync(deleteUrl).Result;
+                    var response = await client.DeleteAsync(deleteUrl);
                     if (response.IsSuccessStatusCode)
                     {
-                        new MessageDialog("OK, the" + hotel.Name + "is deleted ").ShowAsync();
+                       await new MessageDialog("OK, the" + hotel.Name + "is deleted ").ShowAsync();
                     }
                     else
                     {
-                        new MessageDialog("Not OK !" + response.StatusCode.ToString()).ShowAsync();
+                       await new MessageDialog("Not OK !" + response.StatusCode.ToString()).ShowAsync();
                     }
                 }
                 catch (Exception e)
                 {
 
-                    new MessageDialog("Ups something went wrong" + e.Message);
+                     new MessageDialog("Ups something went wrong" + e.Message);
                 }
                 
             }
